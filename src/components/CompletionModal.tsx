@@ -1,42 +1,45 @@
 'use client';
 
 import { useGame } from '@/lib/gameContext';
+import { useI18n } from '@/lib/i18nContext';
 import { DIFFICULTY_LABELS } from '@/lib/sudoku';
 import styles from './CompletionModal.module.css';
 
 export default function CompletionModal() {
   const { state, dispatch, formatTime } = useGame();
+  const { locale, messages } = useI18n();
 
   if (state.status !== 'completed' || !state.difficulty) return null;
 
   const info = DIFFICULTY_LABELS[state.difficulty];
+  const hintValue = `${state.hintsUsed}${messages.completion.hintCountSuffix}`;
 
   return (
-    <div className={styles.overlay} role="dialog" aria-modal="true" aria-label="게임 클리어">
+    <div className={styles.overlay} role="dialog" aria-modal="true" aria-label={messages.completion.dialogAria}>
       <div className={styles.modal}>
         <div className={styles.confetti}>🎉</div>
-        <h2 className={styles.title}>축하합니다!</h2>
-        <p className={styles.subtitle}>퍼즐을 완성했습니다</p>
+        <h2 className={styles.title}>{messages.completion.title}</h2>
+        <p className={styles.subtitle}>{messages.completion.subtitle}</p>
 
         <div className={styles.stats}>
           <div className={styles.stat}>
-            <span className={styles.statLabel}>소요 시간</span>
+            <span className={styles.statLabel}>{messages.completion.timeLabel}</span>
             <span className={styles.statValue}>{formatTime(state.timer)}</span>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statLabel}>난이도</span>
+            <span className={styles.statLabel}>{messages.completion.difficultyLabel}</span>
             <span className={styles.statValue} style={{ color: info.color }}>
-              {info.emoji} {info.ko}
+              {info.emoji} {info[locale]}
             </span>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statLabel}>힌트 사용</span>
-            <span className={styles.statValue}>{state.hintsUsed}회</span>
+            <span className={styles.statLabel}>{messages.completion.hintLabel}</span>
+            <span className={styles.statValue}>{hintValue}</span>
           </div>
         </div>
 
         {/* Ad slot placeholder */}
-        <div className={styles.adSlot} aria-label="광고 영역">
+        <div className={styles.adSlot} data-ad-slot="true" aria-label={messages.game.adAreaAria}>
           <span className={styles.adPlaceholder}>AD 300×250</span>
         </div>
 
@@ -45,13 +48,13 @@ export default function CompletionModal() {
             className={styles.newGameBtn}
             onClick={() => dispatch({ type: 'GO_HOME' })}
           >
-            🔄 새 게임
+            {messages.completion.newGameButton}
           </button>
           <button
             className={styles.homeBtn}
             onClick={() => dispatch({ type: 'GO_HOME' })}
           >
-            🏠 홈
+            {messages.completion.homeButton}
           </button>
         </div>
       </div>

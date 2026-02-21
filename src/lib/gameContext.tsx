@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useReducer, useCallback, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useReducer, useCallback, useEffect, useRef, type ReactNode } from 'react';
 import { generatePuzzle, isBoardCorrect, isBoardComplete, getConflicts, type Board, type Difficulty } from '@/lib/sudoku';
 
 // Types
@@ -238,6 +238,7 @@ const GameContext = createContext<GameContextType | null>(null);
 
 export function GameProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(gameReducer, initialState);
+  const storageHydratedRef = useRef(false);
 
   // Timer
   useEffect(() => {
@@ -248,6 +249,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   // Save state to localStorage
   useEffect(() => {
+    if (!storageHydratedRef.current) return;
+
     if (state.status === 'idle') {
       try { localStorage.removeItem('sudoku-game'); } catch {}
       return;
@@ -279,6 +282,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         }
       }
     } catch {}
+    storageHydratedRef.current = true;
   }, []);
 
   const getConflictsForCell = useCallback((row: number, col: number): [number, number][] => {

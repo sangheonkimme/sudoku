@@ -1,11 +1,13 @@
 'use client';
 
 import { useGame } from '@/lib/gameContext';
+import { useI18n } from '@/lib/i18nContext';
 import { useEffect, useCallback } from 'react';
 import styles from './Board.module.css';
 
 export default function Board() {
   const { state, dispatch, getConflictsForCell } = useGame();
+  const { locale, messages } = useI18n();
   const { board, puzzle, selectedCell, notes, showErrors, highlightSame } = state;
 
   // Keyboard handler
@@ -66,6 +68,16 @@ export default function Board() {
 
   const selectedValue = selectedCell ? board[selectedCell[0]][selectedCell[1]] : 0;
 
+  function getCellAriaLabel(row: number, col: number, cell: number, isFixed: boolean): string {
+    if (locale === 'en') {
+      return `Row ${row + 1}, Column ${col + 1}${cell ? `, Value ${cell}` : ', empty'}${isFixed ? ', fixed' : ''}`;
+    }
+    if (locale === 'jp') {
+      return `行 ${row + 1}、列 ${col + 1}${cell ? `、値 ${cell}` : `、${messages.board.emptyLabel}`}${isFixed ? `、${messages.board.fixedLabel}` : ''}`;
+    }
+    return `행 ${row + 1}, 열 ${col + 1}${cell ? `, 값 ${cell}` : ', 비어있음'}${isFixed ? ', 고정' : ''}`;
+  }
+
   function getCellClass(row: number, col: number): string {
     const classes = [styles.cell];
 
@@ -112,7 +124,7 @@ export default function Board() {
   }
 
   return (
-    <div className={styles.board} role="grid" aria-label="스도쿠 게임 보드">
+    <div className={styles.board} role="grid" aria-label={messages.board.boardAria}>
       {board.map((row, r) => (
         <div key={r} className={styles.row} role="row">
           {row.map((cell, c) => {
@@ -126,7 +138,10 @@ export default function Board() {
                 className={getCellClass(r, c)}
                 onClick={() => dispatch({ type: 'SELECT_CELL', row: r, col: c })}
                 role="gridcell"
-                aria-label={`행 ${r + 1}, 열 ${c + 1}${cell ? `, 값 ${cell}` : ', 비어있음'}${isFixed ? ', 고정' : ''}`}
+                data-testid={`cell-${r}-${c}`}
+                data-row={r}
+                data-col={c}
+                aria-label={getCellAriaLabel(r, c, cell, isFixed)}
                 aria-selected={selectedCell?.[0] === r && selectedCell?.[1] === c}
                 tabIndex={selectedCell?.[0] === r && selectedCell?.[1] === c ? 0 : -1}
               >

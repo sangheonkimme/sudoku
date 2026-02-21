@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { cookies } from "next/headers";
+import {
+  DEFAULT_LOCALE,
+  LOCALE_COOKIE,
+  getMessages,
+  isSupportedLocale,
+  type Locale,
+} from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: {
@@ -50,10 +58,11 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL("https://sudoku.example.com"),
   alternates: {
-    canonical: "/",
+    canonical: "/en",
     languages: {
-      "ko-KR": "/",
+      "ko-KR": "/ko",
       "en-US": "/en",
+      "ja-JP": "/jp",
     },
   },
   other: {
@@ -81,13 +90,19 @@ const jsonLd = {
   softwareVersion: "1.0",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const cookieLocale = cookieStore.get(LOCALE_COOKIE)?.value;
+  const locale: Locale = isSupportedLocale(cookieLocale) ? cookieLocale : DEFAULT_LOCALE;
+  const messages = getMessages(locale);
+  const htmlLang = locale === "jp" ? "ja" : locale;
+
   return (
-    <html lang="ko" suppressHydrationWarning>
+    <html lang={htmlLang} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -98,7 +113,7 @@ export default function RootLayout({
       </head>
       <body>
         <a href="#main-content" className="skip-link">
-          본문 바로가기
+          {messages.site.skipLink}
         </a>
         {children}
       </body>

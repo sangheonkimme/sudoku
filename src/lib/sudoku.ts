@@ -176,9 +176,9 @@ export function getConflicts(board: Board, row: number, col: number, num: number
   return conflicts;
 }
 
-export const DIFFICULTY_LABELS: Record<Difficulty, { ko: string; en: string; color: string; emoji: string }> = {
-  easy: { ko: '쉬움', en: 'Easy', color: '#22c55e', emoji: '🟢' },
-  medium: { ko: '보통', en: 'Medium', color: '#eab308', emoji: '🟡' },
-  hard: { ko: '어려움', en: 'Hard', color: '#ef4444', emoji: '🔴' },
-  expert: { ko: '전문가', en: 'Expert', color: '#0f766e', emoji: '⚫' },
+export const DIFFICULTY_LABELS: Record<Difficulty, { ko: string; en: string; jp: string; color: string; emoji: string }> = {
+  easy: { ko: '쉬움', en: 'Easy', jp: '初級', color: '#22c55e', emoji: '🟢' },
+  medium: { ko: '보통', en: 'Medium', jp: '中級', color: '#eab308', emoji: '🟡' },
+  hard: { ko: '어려움', en: 'Hard', jp: '上級', color: '#ef4444', emoji: '🔴' },
+  expert: { ko: '전문가', en: 'Expert', jp: '達人', color: '#0f766e', emoji: '⚫' },
 };
