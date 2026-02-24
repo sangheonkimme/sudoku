@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { cookies } from "next/headers";
 import {
@@ -8,6 +9,9 @@ import {
   isSupportedLocale,
   type Locale,
 } from "@/lib/i18n";
+import { ADSENSE_CLIENT, isAdsenseEnabled } from "@/lib/ads";
+
+const adsenseEnabled = isAdsenseEnabled();
 
 export const metadata: Metadata = {
   title: {
@@ -65,9 +69,13 @@ export const metadata: Metadata = {
       "ja-JP": "/jp",
     },
   },
-  other: {
-    "google-adsense-account": "ca-pub-XXXXXXXXXXXXXXXX",
-  },
+  ...(adsenseEnabled
+    ? {
+        other: {
+          "google-adsense-account": ADSENSE_CLIENT,
+        },
+      }
+    : {}),
 };
 
 // JSON-LD structured data
@@ -108,6 +116,15 @@ export default async function RootLayout({
         <link rel="shortcut icon" href="/favicon.svg" />
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
+        {adsenseEnabled ? (
+          <Script
+            id="adsense-script"
+            async
+            strategy="afterInteractive"
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+            crossOrigin="anonymous"
+          />
+        ) : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

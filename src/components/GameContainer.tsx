@@ -5,7 +5,9 @@ import Board from '@/components/Board';
 import Controls from '@/components/Controls';
 import DifficultySelect from '@/components/DifficultySelect';
 import CompletionModal from '@/components/CompletionModal';
+import AdSlot from '@/components/AdSlot';
 import { useI18n } from '@/lib/i18nContext';
+import { ADSENSE_SLOTS } from '@/lib/ads';
 import styles from './GameContainer.module.css';
 
 export default function GameContainer() {
@@ -24,9 +26,15 @@ export default function GameContainer() {
         <DifficultySelect />
 
         {/* Ad slot - Leaderboard */}
-        <div className={styles.adLeaderboard} data-ad-slot="true" aria-label={messages.game.adAreaAria}>
-          <span className={styles.adPlaceholder}>AD 728×90</span>
-        </div>
+        <AdSlot
+          className={styles.adLeaderboard}
+          ariaLabel={messages.game.adAreaAria}
+          slot={ADSENSE_SLOTS.leaderboard}
+          fallback="AD 728×90"
+          fallbackClassName={styles.adPlaceholder}
+          format="horizontal"
+          style={{ display: 'block' }}
+        />
 
         {/* SEO content for crawlers */}
         <section className={styles.seoContent}>
@@ -48,9 +56,16 @@ export default function GameContainer() {
     return (
       <div className={styles.gameLayout}>
         {/* Side ad slot - Desktop */}
-        <aside className={styles.adSide} data-ad-slot="true" aria-label={messages.game.adAreaAria}>
-          <span className={styles.adPlaceholder}>AD 160×600</span>
-        </aside>
+        <AdSlot
+          className={styles.adSide}
+          ariaLabel={messages.game.adAreaAria}
+          slot={ADSENSE_SLOTS.side}
+          fallback="AD 160×600"
+          fallbackClassName={styles.adPlaceholder}
+          format="vertical"
+          fullWidthResponsive={false}
+          style={{ display: 'inline-block', width: 160, height: 600 }}
+        />
 
         <div className={styles.gameCenter}>
           <div className={`${styles.boardWrapper} ${styles.boardMuted}`}>
@@ -69,9 +84,15 @@ export default function GameContainer() {
           <Controls />
 
           {/* Bottom ad slot */}
-          <div className={styles.adBottom} data-ad-slot="true" aria-label={messages.game.adAreaAria}>
-            <span className={styles.adPlaceholder}>AD 728×90</span>
-          </div>
+          <AdSlot
+            className={styles.adBottom}
+            ariaLabel={messages.game.adAreaAria}
+            slot={ADSENSE_SLOTS.bottom}
+            fallback="AD 728×90"
+            fallbackClassName={styles.adPlaceholder}
+            format="horizontal"
+            style={{ display: 'block' }}
+          />
         </div>
       </div>
     );
@@ -81,18 +102,31 @@ export default function GameContainer() {
   return (
     <div className={styles.gameLayout}>
       {/* Side ad slot - Desktop only */}
-      <aside className={styles.adSide} data-ad-slot="true" aria-label={messages.game.adAreaAria}>
-        <span className={styles.adPlaceholder}>AD 160×600</span>
-      </aside>
+      <AdSlot
+        className={styles.adSide}
+        ariaLabel={messages.game.adAreaAria}
+        slot={ADSENSE_SLOTS.side}
+        fallback="AD 160×600"
+        fallbackClassName={styles.adPlaceholder}
+        format="vertical"
+        fullWidthResponsive={false}
+        style={{ display: 'inline-block', width: 160, height: 600 }}
+      />
 
       <div className={styles.gameCenter}>
         <Board />
         <Controls />
 
         {/* Bottom ad slot */}
-        <div className={styles.adBottom} data-ad-slot="true" aria-label={messages.game.adAreaAria}>
-          <span className={styles.adPlaceholder}>AD 728×90</span>
-        </div>
+        <AdSlot
+          className={styles.adBottom}
+          ariaLabel={messages.game.adAreaAria}
+          slot={ADSENSE_SLOTS.bottom}
+          fallback="AD 728×90"
+          fallbackClassName={styles.adPlaceholder}
+          format="horizontal"
+          style={{ display: 'block' }}
+        />
       </div>
 
       <CompletionModal />
