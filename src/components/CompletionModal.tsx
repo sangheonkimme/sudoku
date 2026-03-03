@@ -5,6 +5,13 @@ import { useI18n } from '@/lib/i18nContext';
 import { DIFFICULTY_LABELS } from '@/lib/sudoku';
 import styles from './CompletionModal.module.css';
 
+const difficultyClassMap = {
+  easy: styles.easy,
+  medium: styles.medium,
+  hard: styles.hard,
+  expert: styles.expert,
+};
+
 export default function CompletionModal() {
   const { state, dispatch, formatTime } = useGame();
   const { locale, messages } = useI18n();
@@ -28,7 +35,7 @@ export default function CompletionModal() {
           </div>
           <div className={styles.stat}>
             <span className={styles.statLabel}>{messages.completion.difficultyLabel}</span>
-            <span className={styles.statValue} style={{ color: info.color }}>
+            <span className={`${styles.statValue} ${difficultyClassMap[state.difficulty]}`}>
               {info.emoji} {info[locale]}
             </span>
           </div>

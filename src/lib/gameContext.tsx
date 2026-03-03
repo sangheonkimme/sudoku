@@ -21,7 +21,7 @@ export interface GameState {
   highlightSame: boolean;
 }
 
-type GameAction =
+export type GameAction =
   | { type: 'NEW_GAME'; difficulty: Difficulty }
   | { type: 'SELECT_CELL'; row: number; col: number }
   | { type: 'INPUT_NUMBER'; num: number }
@@ -42,13 +42,13 @@ function createNotes(): Set<number>[][] {
   );
 }
 
-const initialState: GameState = {
+export const initialState: GameState = {
   status: 'idle',
   difficulty: null,
   puzzle: null,
   board: null,
   solution: null,
-  notes: [],
+  notes: createNotes(),
   selectedCell: null,
   timer: 0,
   hintsUsed: 0,
@@ -59,7 +59,7 @@ const initialState: GameState = {
   highlightSame: true,
 };
 
-function gameReducer(state: GameState, action: GameAction): GameState {
+export function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case 'NEW_GAME': {
       const { puzzle, solution } = generatePuzzle(action.difficulty);

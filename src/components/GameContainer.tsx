@@ -33,7 +33,6 @@ export default function GameContainer() {
           fallback="AD 728×90"
           fallbackClassName={styles.adPlaceholder}
           format="horizontal"
-          style={{ display: 'block' }}
         />
 
         {/* SEO content for crawlers */}
@@ -57,14 +56,13 @@ export default function GameContainer() {
       <div className={styles.gameLayout}>
         {/* Side ad slot - Desktop */}
         <AdSlot
-          className={styles.adSide}
+          className={`${styles.adSide} ${styles.adSideSized}`}
           ariaLabel={messages.game.adAreaAria}
           slot={ADSENSE_SLOTS.side}
           fallback="AD 160×600"
           fallbackClassName={styles.adPlaceholder}
           format="vertical"
           fullWidthResponsive={false}
-          style={{ display: 'inline-block', width: 160, height: 600 }}
         />
 
         <div className={styles.gameCenter}>
@@ -76,6 +74,7 @@ export default function GameContainer() {
               <button
                 className={styles.resumeBtn}
                 onClick={() => dispatch({ type: 'TOGGLE_PAUSE' })}
+                aria-label={messages.game.resumeButton}
               >
                 {messages.game.resumeButton}
               </button>
@@ -91,7 +90,6 @@ export default function GameContainer() {
             fallback="AD 728×90"
             fallbackClassName={styles.adPlaceholder}
             format="horizontal"
-            style={{ display: 'block' }}
           />
         </div>
       </div>
@@ -103,14 +101,13 @@ export default function GameContainer() {
     <div className={styles.gameLayout}>
       {/* Side ad slot - Desktop only */}
       <AdSlot
-        className={styles.adSide}
+        className={`${styles.adSide} ${styles.adSideSized}`}
         ariaLabel={messages.game.adAreaAria}
         slot={ADSENSE_SLOTS.side}
         fallback="AD 160×600"
         fallbackClassName={styles.adPlaceholder}
         format="vertical"
         fullWidthResponsive={false}
-        style={{ display: 'inline-block', width: 160, height: 600 }}
       />
 
       <div className={styles.gameCenter}>
@@ -125,7 +122,6 @@ export default function GameContainer() {
           fallback="AD 728×90"
           fallbackClassName={styles.adPlaceholder}
           format="horizontal"
-          style={{ display: 'block' }}
         />
       </div>
 

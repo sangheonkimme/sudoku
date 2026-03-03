@@ -77,6 +77,22 @@
   color: var(--text-primary);
 }
 
+.easy {
+  color: #22c55e;
+}
+
+.medium {
+  color: #eab308;
+}
+
+.hard {
+  color: #ef4444;
+}
+
+.expert {
+  color: #0f766e;
+}
+
 .adSlot {
   min-height: 250px;
   max-width: 300px;

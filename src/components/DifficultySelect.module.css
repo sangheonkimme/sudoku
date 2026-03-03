@@ -56,7 +56,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  border-top: 3px solid var(--card-color);
+  border-top: 3px solid currentColor;
   opacity: 0.65;
   pointer-events: none;
 }
@@ -75,7 +75,7 @@
 }
 
 .card:hover {
-  border-color: var(--card-color);
+  border-color: currentColor;
   transform: translateY(-2px);
   box-shadow: 0 14px 28px rgba(38, 32, 21, 0.18);
 }
@@ -97,7 +97,23 @@
   font-family: var(--font-display);
   font-size: 1.08rem;
   font-weight: 700;
-  color: var(--card-color);
+  color: currentColor;
+}
+
+.easy {
+  color: #22c55e;
+}
+
+.medium {
+  color: #eab308;
+}
+
+.hard {
+  color: #ef4444;
+}
+
+.expert {
+  color: #0f766e;
 }
 
 .levelKo {

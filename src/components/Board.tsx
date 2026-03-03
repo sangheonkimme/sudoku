@@ -1,8 +1,8 @@
 'use client';
 
+import { useCallback, useEffect } from 'react';
 import { useGame } from '@/lib/gameContext';
 import { useI18n } from '@/lib/i18nContext';
-import { useEffect, useCallback } from 'react';
 import styles from './Board.module.css';
 
 export default function Board() {

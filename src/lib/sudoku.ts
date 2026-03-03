@@ -3,8 +3,8 @@ export type Difficulty = 'easy' | 'medium' | 'hard' | 'expert';
 
 export type Board = number[][];
 
-const GRID_SIZE = 9;
-const BOX_SIZE = 3;
+export const GRID_SIZE = 9;
+export const BOX_SIZE = 3;
 
 function createEmptyBoard(): Board {
   return Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(0));
@@ -13,11 +13,11 @@ function createEmptyBoard(): Board {
 function isValid(board: Board, row: number, col: number, num: number): boolean {
   // Check row
   for (let c = 0; c < GRID_SIZE; c++) {
-    if (board[row][c] === num) return false;
+    if (c !== col && board[row][c] === num) return false;
   }
   // Check column
   for (let r = 0; r < GRID_SIZE; r++) {
-    if (board[r][col] === num) return false;
+    if (r !== row && board[r][col] === num) return false;
   }
   // Check 3x3 box
   const boxRow = Math.floor(row / BOX_SIZE) * BOX_SIZE;
@@ -166,7 +166,7 @@ export function getConflicts(board: Board, row: number, col: number, num: number
   const boxCol = Math.floor(col / BOX_SIZE) * BOX_SIZE;
   for (let r = boxRow; r < boxRow + BOX_SIZE; r++) {
     for (let c = boxCol; c < boxCol + BOX_SIZE; c++) {
-      if (r !== row && c !== col && board[r][c] === num) {
+      if (!(r === row && c === col) && board[r][c] === num) {
         if (!conflicts.some(([cr, cc]) => cr === r && cc === c)) {
           conflicts.push([r, c]);
         }

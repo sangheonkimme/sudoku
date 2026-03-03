@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useGame } from '@/lib/gameContext';
 import { DIFFICULTY_LABELS, type Difficulty } from '@/lib/sudoku';
 import { useI18n } from '@/lib/i18nContext';
@@ -8,7 +9,7 @@ import styles from './DifficultySelect.module.css';
 export default function DifficultySelect() {
   const { dispatch } = useGame();
   const { locale, messages } = useI18n();
-  const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'expert'];
+  const difficulties = useMemo<Difficulty[]>(() => ['easy', 'medium', 'hard', 'expert'], []);
 
   return (
     <section className={styles.container} aria-label={messages.difficulty.title}>
@@ -28,9 +29,8 @@ export default function DifficultySelect() {
           return (
             <button
               key={d}
-              className={styles.card}
+              className={`${styles.card} ${styles[d]}`}
               onClick={() => dispatch({ type: 'NEW_GAME', difficulty: d })}
-              style={{ '--card-color': info.color } as React.CSSProperties}
               aria-label={newGameLabel}
             >
               <span className={styles.emoji}>{info.emoji}</span>

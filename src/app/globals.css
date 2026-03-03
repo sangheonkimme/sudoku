@@ -117,6 +117,10 @@ main#main-content {
   overflow: hidden;
 }
 
+.adsbygoogle {
+  display: block;
+}
+
 .site-header {
   width: 100%;
   padding: 18px 16px 4px;

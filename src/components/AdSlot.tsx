@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, type CSSProperties } from 'react';
+import { useEffect, useRef } from 'react';
 import { ADSENSE_CLIENT, isAdsenseEnabled } from '@/lib/ads';
 
 declare global {
@@ -15,7 +15,6 @@ interface AdSlotProps {
   ariaLabel: string;
   fallback: string;
   fallbackClassName?: string;
-  style?: CSSProperties;
   format?: 'auto' | 'fluid' | 'rectangle' | 'horizontal' | 'vertical';
   fullWidthResponsive?: boolean;
 }
@@ -26,7 +25,6 @@ export default function AdSlot({
   ariaLabel,
   fallback,
   fallbackClassName,
-  style,
   format = 'auto',
   fullWidthResponsive = true,
 }: AdSlotProps) {
@@ -53,7 +51,6 @@ export default function AdSlot({
     <div className={className} data-ad-slot="true" aria-label={ariaLabel}>
       <ins
         className="adsbygoogle"
-        style={style ?? { display: 'block' }}
         data-ad-client={ADSENSE_CLIENT}
         data-ad-slot={slot}
         data-ad-format={format}
